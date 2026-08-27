@@ -8,11 +8,14 @@
 <style>
   :root {
     --paper: #fbf7f2; --card: #fff; --ink: #2b241d; --muted: #8a7c6a;
-    --rule: #ece1d3; --accent: #b5652c; --accent-tint: #f3e4d3;
+    --rule: #ece1d3; --accent: #b5652c; --accent-tint: #f3e4d3; --warn: #b3401f; --warn-tint: #fbe8e2;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
   body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.6 -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .setup-banner { background: var(--warn-tint); border-bottom: 2px solid var(--warn); padding: 14px 24px; text-align: center; font-size: 13.5px; color: var(--warn); }
+  .setup-banner strong { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+  .setup-banner ul { display: inline-block; text-align: left; margin: 8px 0 0; padding-left: 18px; }
   header.top { position: sticky; top: 0; background: rgba(251,247,242,0.92); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); z-index: 10; }
   nav { max-width: 960px; margin: 0 auto; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
   nav .brand { font-weight: 700; font-size: 17px; letter-spacing: 0.02em; }
@@ -20,33 +23,44 @@
   nav .links a { color: var(--ink); text-decoration: none; }
   nav .links a:hover { color: var(--accent); }
   section { max-width: 960px; margin: 0 auto; padding: 64px 24px; }
-  .hero { text-align: center; padding-top: 80px; padding-bottom: 80px; }
+  .hero { text-align: center; padding-top: 72px; padding-bottom: 72px; }
   .hero h1 { font-size: clamp(28px, 5vw, 42px); margin: 0 0 14px; line-height: 1.2; }
   .hero p { color: var(--muted); font-size: 17px; max-width: 480px; margin: 0 auto 28px; }
   .cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-  .btn { padding: 12px 22px; border-radius: 999px; font-size: 14.5px; font-weight: 600; text-decoration: none; }
+  .btn { padding: 12px 22px; border-radius: 999px; font-size: 14.5px; font-weight: 600; text-decoration: none; border: none; cursor: pointer; font-family: inherit; }
   .btn.primary { background: var(--accent); color: #fff; }
-  .btn.secondary { border: 1px solid var(--rule); color: var(--ink); }
+  .btn.secondary { border: 1px solid var(--rule); color: var(--ink); background: transparent; }
   h2.section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); font-weight: 700; margin: 0 0 8px; }
-  h2 + h3 { margin-top: 0; font-size: 26px; }
+  h3.h { margin-top: 0; font-size: 26px; }
   .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-top: 28px; }
   .gallery figure { margin: 0; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; overflow: hidden; }
   .gallery img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; }
   .gallery figcaption { padding: 10px 12px; font-size: 12.5px; color: var(--muted); }
-  .placeholder-card { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12.5px; text-align: center; padding: 16px; background: var(--accent-tint); }
+  .placeholder-card { aspect-ratio: 3/4; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 12.5px; text-align: center; padding: 16px; background: var(--accent-tint); border-radius: 12px; }
   .ordering { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 28px; }
   @media (max-width: 640px) { .ordering { grid-template-columns: 1fr; } }
   .ordering .card { background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 22px; }
   .ordering h4 { margin: 0 0 10px; font-size: 16px; }
   .ordering p { color: var(--muted); font-size: 14.5px; margin: 0; }
-  .contact-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; }
-  .contact-link { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; text-decoration: none; color: var(--ink); font-size: 14.5px; font-weight: 600; flex: 1; min-width: 180px; }
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 28px; align-items: start; }
+  @media (max-width: 720px) { .contact-layout { grid-template-columns: 1fr; } }
+  .contact-grid { display: flex; flex-wrap: wrap; gap: 12px; }
+  .contact-link { display: flex; align-items: center; gap: 10px; padding: 14px 18px; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; text-decoration: none; color: var(--ink); font-size: 14.5px; font-weight: 600; flex: 1; min-width: 150px; }
   .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+  form.contact-form { display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 1px solid var(--rule); border-radius: 12px; padding: 22px; }
+  form.contact-form label { font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+  form.contact-form input, form.contact-form textarea { padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px; font-size: 14.5px; font-family: inherit; }
+  form.contact-form textarea { min-height: 90px; resize: vertical; }
   footer { border-top: 1px solid var(--rule); padding: 28px 24px; text-align: center; color: var(--muted); font-size: 12.5px; }
-  .fill-note { background: var(--accent-tint); border: 1px dashed var(--accent); border-radius: 10px; padding: 10px 14px; font-size: 12px; color: var(--accent); margin-bottom: 20px; }
 </style>
 </head>
 <body>
+<div class="setup-banner">
+  <strong>Not live yet &mdash; two things are still needed before this goes public</strong>
+  1) The atelier's real name, city, and at least one contact channel (WhatsApp/Instagram/phone) &mdash; every <code>[bracket]</code> below needs a real value.
+  2) At least a few real photographs of finished dresses (per the separate photo-habit proposal) &mdash; the gallery below is placeholder until those exist.
+  <br>This page is otherwise real, tested, and deploy-ready. See README.md for exactly what to fill in.
+</div>
 <header class="top">
   <nav>
     <span class="brand">[Atelier Name]</span>
@@ -59,9 +73,8 @@
 </header>
 
 <section class="hero">
-  <div class="fill-note">Placeholder content in brackets — fill in the atelier's real name, city, and contact details before this goes live. See README.</div>
   <h1>Bespoke wedding &amp; matura dresses,<br>made to measure.</h1>
-  <p>A small atelier in [City], Kosovo. Every dress is built to your own measurements and your own reference photo — nothing off the rack.</p>
+  <p>A small atelier in [City], Kosovo. Every dress is built to your own measurements and your own reference photo &mdash; nothing off the rack.</p>
   <div class="cta">
     <a class="btn primary" href="#contact">Get in touch</a>
     <a class="btn secondary" href="#work">See our work</a>
@@ -70,14 +83,14 @@
 
 <section id="work">
   <h2 class="section-title">Our work</h2>
-  <h3>Every dress we've made and photographed ourselves</h3>
-  <p style="color:var(--muted);max-width:560px;">Only photographs we took ourselves — never a bride's own wedding photos, which usually belong to her photographer, not to her to share.</p>
+  <h3 class="h">Every dress we've made and photographed ourselves</h3>
+  <p style="color:var(--muted);max-width:560px;">Only photographs we took ourselves &mdash; never a bride's own wedding photos, which usually belong to her photographer, not to her to share.</p>
   <div class="gallery" id="gallery"></div>
 </section>
 
 <section id="ordering">
   <h2 class="section-title">How ordering works</h2>
-  <h3>Two ways to order</h3>
+  <h3 class="h">Two ways to order</h3>
   <div class="ordering">
     <div class="card">
       <h4>In [City]</h4>
@@ -85,19 +98,32 @@
     </div>
     <div class="card">
       <h4>From abroad</h4>
-      <p>Send a reference photo and your own measurements (we'll walk you through exactly how — see our measuring guide). We build the dress and ship it, and a final fitting happens in person if you're able to visit before your date.</p>
+      <p>Send a reference photo and your own measurements (we'll walk you through exactly how &mdash; see our measuring guide). We build the dress and ship it, and a final fitting happens in person if you're able to visit before your date.</p>
     </div>
   </div>
 </section>
 
 <section id="contact">
   <h2 class="section-title">Contact</h2>
-  <h3>Reach us directly</h3>
-  <div class="contact-grid">
-    <a class="contact-link" href="https://wa.me/38300000000" target="_blank" rel="noopener">WhatsApp</a>
-    <a class="contact-link" href="viber://chat?number=%2B38300000000">Viber</a>
-    <a class="contact-link" href="https://instagram.com/atelier" target="_blank" rel="noopener">Instagram</a>
-    <a class="contact-link" href="mailto:hello@example.com?subject=Dress%20enquiry">Email</a>
+  <h3 class="h">Reach us directly</h3>
+  <div class="contact-layout">
+    <div>
+      <p style="color:var(--muted);margin-top:0;">Prefer to message directly?</p>
+      <div class="contact-grid">
+        <a class="contact-link" href="https://wa.me/38300000000" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="contact-link" href="viber://chat?number=%2B38300000000">Viber</a>
+        <a class="contact-link" href="https://instagram.com/atelier" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <form class="contact-form" action="mailto:hello@example.com" method="post" enctype="text/plain">
+      <label>Your name</label>
+      <input name="name" required>
+      <label>Your email or phone</label>
+      <input name="contact" required>
+      <label>Your message</label>
+      <textarea name="message" placeholder="Tell us about the occasion and date, and share a reference photo separately over WhatsApp/Instagram."></textarea>
+      <button class="btn primary" type="submit">Send</button>
+    </form>
   </div>
 </section>
 
